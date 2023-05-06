@@ -1,6 +1,8 @@
 const express = require("express");
-const request = require("request");
+const connectDB = require("./db/connect");
 require("dotenv").config();
+const playerRouter = require("./router/players");
+
 const app = express();
 const port = 3001;
 
@@ -15,4 +17,15 @@ app.get("/api/team", (req, res) => {
   request(url).pipe(res);
 });
 
-app.listen(port, () => console.log(`Server listens on port:${port}`));
+app.use("/api/bootstrap-static", playerRouter);
+
+const startServer = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => console.log(`Server listens on port:${port}`));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+startServer();
