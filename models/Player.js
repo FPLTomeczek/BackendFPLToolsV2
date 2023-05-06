@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const PlayerSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
   web_name: {
     type: String,
     required: true,

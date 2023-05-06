@@ -8,13 +8,12 @@ const getPlayers = (req, res) => {
     .then(async (data) => {
       result = data["elements"];
       const players = result.map((elem) => {
-        const { web_name, goals_scored, assists, team } = elem;
-        return { web_name, goals_scored, assists, team };
+        const { web_name, goals_scored, assists, team, id } = elem;
+        return { web_name, goals_scored, assists, team, id };
       });
-      const playersInserted = await Player.insertMany(players);
+      await Player.insertMany(players);
 
-      console.log("playersInserted", playersInserted);
-      res.json(data);
+      res.status(200).json({ msg: "Players Added" });
     })
     .catch((error) => console.log(error));
 };
