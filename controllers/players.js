@@ -1,7 +1,9 @@
 const { makePlayersRequest } = require("../utils");
+const { StatusCodes } = require("http-status-codes");
+const { NotFoundError } = require("../errors");
 const Player = require("../models/Player");
 
-const getPlayers = (req, res) => {
+const getAllPlayers = (req, res) => {
   const url = `${process.env.FPL_API}/bootstrap-static/`;
   let result;
   makePlayersRequest(url)
@@ -18,4 +20,18 @@ const getPlayers = (req, res) => {
     .catch((error) => console.log(error));
 };
 
-module.exports = { getPlayers };
+const getTeamManagerPlayers = async (req, res) => {
+  const { ids } = req.query;
+  const parsedIDs = JSON.parse(ids);
+  const players = await Player.find({
+    id: {
+      $in: parsedIDs,
+    },
+  }).catch((err) => console.log(err));
+  if (players) {
+    res.status(StatusCodes.OK).json({ players });
+  } else {
+    throw NotFoundError("Players not found");
+  }
+};
+module.exports = { getAllPlayers, getTeamManagerPlayers };

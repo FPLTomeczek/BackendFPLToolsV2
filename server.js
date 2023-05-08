@@ -1,6 +1,8 @@
 const express = require("express");
 const connectDB = require("./db/connect");
+
 require("dotenv").config();
+const request = require("request");
 const playerRouter = require("./router/players");
 
 const app = express();
@@ -17,7 +19,7 @@ app.get("/api/team", (req, res) => {
   request(url).pipe(res);
 });
 
-app.use("/api/bootstrap-static", playerRouter);
+app.use("/api/players", playerRouter);
 
 const startServer = async () => {
   try {
