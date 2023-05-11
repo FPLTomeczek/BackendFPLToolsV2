@@ -21,6 +21,10 @@ const PlayerSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  element_type: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Player", PlayerSchema);

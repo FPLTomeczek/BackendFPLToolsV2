@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getAllPlayers,
+  addAllPlayers,
   getTeamManagerPlayers,
+  getAllPlayers,
 } = require("../controllers/players");
 
-router.route("/getAllPlayers").get(getAllPlayers);
+//post function populating db, not for use from frontend
+router.route("/").post(addAllPlayers).get(getAllPlayers);
+
 router.route("/getTeamManagerPlayers").get(getTeamManagerPlayers);
 
 module.exports = router;
