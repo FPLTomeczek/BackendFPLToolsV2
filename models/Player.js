@@ -25,6 +25,14 @@ const PlayerSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  total_points: {
+    type: Number,
+    required: true,
+  },
+  now_cost: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Player", PlayerSchema);

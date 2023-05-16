@@ -11,10 +11,28 @@ const addAllPlayers = (req, res) => {
     .then(async (data) => {
       result = data["elements"];
       const players = result.map((elem) => {
-        const { web_name, goals_scored, assists, team, id, element_type } =
-          elem;
-        return { web_name, goals_scored, assists, team, id, element_type };
+        const {
+          web_name,
+          goals_scored,
+          assists,
+          team,
+          id,
+          element_type,
+          total_points,
+          now_cost,
+        } = elem;
+        return {
+          web_name,
+          goals_scored,
+          assists,
+          team,
+          id,
+          element_type,
+          total_points,
+          now_cost,
+        };
       });
+      await Player.deleteMany({});
       await Player.insertMany(players);
 
       res.status(StatusCodes.CREATED).json({ msg: "Players Added" });
