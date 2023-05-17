@@ -1,4 +1,4 @@
-const { makePlayersRequest } = require("../utils");
+const { makePlayersRequest, updateTeam, updateRole } = require("../utils");
 const { StatusCodes } = require("http-status-codes");
 const { NotFoundError } = require("../errors");
 const Player = require("../models/Player");
@@ -21,13 +21,15 @@ const addAllPlayers = (req, res) => {
           total_points,
           now_cost,
         } = elem;
+        const updatedTeam = updateTeam(team);
+        const updatedRole = updateRole(element_type);
         return {
           web_name,
           goals_scored,
           assists,
-          team,
+          team: updatedTeam,
           id,
-          element_type,
+          element_type: updatedRole,
           total_points,
           now_cost,
         };
