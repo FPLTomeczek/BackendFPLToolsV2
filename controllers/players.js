@@ -61,4 +61,8 @@ const getTeamManagerPlayers = async (req, res) => {
     throw NotFoundError("Players not found");
   }
 };
-module.exports = { addAllPlayers, getTeamManagerPlayers, getAllPlayers };
+module.exports = {
+  addAllPlayers,
+  getTeamManagerPlayers,
+  getAllPlayers,
+};

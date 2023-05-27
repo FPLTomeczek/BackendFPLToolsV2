@@ -4,6 +4,7 @@ const connectDB = require("./db/connect");
 require("dotenv").config();
 const request = require("request");
 const playerRouter = require("./router/players");
+const playerHistoryRouter = require("./router/playersHistory");
 
 const app = express();
 const port = 3001;
@@ -20,6 +21,7 @@ app.get("/api/team", (req, res) => {
 });
 
 app.use("/api/players", playerRouter);
+app.use("/api/players-history", playerHistoryRouter);
 
 const startServer = async () => {
   try {
