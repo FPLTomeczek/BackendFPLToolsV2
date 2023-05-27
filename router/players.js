@@ -8,6 +8,7 @@ const {
 
 //post function populating db, not for use from frontend
 router.route("/").post(addAllPlayers).get(getAllPlayers);
+// router.route("/addPlayerHistoryCost").get(addPlayerHistoryCost);
 
 router.route("/getTeamManagerPlayers").get(getTeamManagerPlayers);
 

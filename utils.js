@@ -1,4 +1,5 @@
 const request = require("request");
+const axios = require("axios");
 
 function makePlayersRequest(url) {
   return new Promise(function (resolve, reject) {
@@ -10,6 +11,15 @@ function makePlayersRequest(url) {
       }
     });
   });
+}
+
+async function getPlayerHistoryCost(id) {
+  const playerData = await axios.get(
+    `${process.env.FPL_API}/element-summary/${id}/`
+  );
+  const { history } = playerData.data;
+  const values = history.map((gw) => gw.value);
+  return values;
 }
 
 function updateTeam(team) {
@@ -74,4 +84,9 @@ function updateRole(role) {
   }
 }
 
-module.exports = { makePlayersRequest, updateTeam, updateRole };
+module.exports = {
+  makePlayersRequest,
+  updateTeam,
+  updateRole,
+  getPlayerHistoryCost,
+};
