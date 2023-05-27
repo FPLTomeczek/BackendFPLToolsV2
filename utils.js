@@ -33,9 +33,9 @@ function updateTeam(team) {
     case 9:
       return "FUL";
     case 10:
-      return "LEE";
-    case 11:
       return "LEI";
+    case 11:
+      return "LEE";
     case 12:
       return "LIV";
     case 13:
