@@ -4,7 +4,7 @@ const { NotFoundError } = require("../errors");
 const Player = require("../models/Player");
 
 //function populating db, not for use from frontend
-const addAllPlayers = (req, res) => {
+const addPlayers = (req, res) => {
   const url = `${process.env.FPL_API}/bootstrap-static/`;
   let result;
   makePlayersRequest(url)
@@ -34,15 +34,22 @@ const addAllPlayers = (req, res) => {
           now_cost,
         };
       });
-      await Player.deleteMany({});
       await Player.insertMany(players);
-
       res.status(StatusCodes.CREATED).json({ msg: "Players Added" });
     })
     .catch((error) => console.log(error));
 };
 
-const getAllPlayers = async (req, res) => {
+const deletePlayers = async (req, res) => {
+  try {
+    await Player.deleteMany({});
+    res.status(StatusCodes.NO_CONTENT).end();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPlayers = async (req, res) => {
   const players = await Player.find({});
   res.status(StatusCodes.OK).json({ players });
 };
@@ -62,7 +69,8 @@ const getTeamManagerPlayers = async (req, res) => {
   }
 };
 module.exports = {
-  addAllPlayers,
+  addPlayers,
   getTeamManagerPlayers,
-  getAllPlayers,
+  getPlayers,
+  deletePlayers,
 };

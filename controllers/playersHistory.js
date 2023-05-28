@@ -17,4 +17,9 @@ const addPlayersHistoryCost = async (req, res) => {
   }
 };
 
-module.exports = { addPlayersHistoryCost };
+const getPlayersHistory = async (req, res) => {
+  const players = await PlayerHistory.find({});
+  res.status(StatusCodes.OK).json({ players });
+};
+
+module.exports = { addPlayersHistoryCost, getPlayersHistory };
