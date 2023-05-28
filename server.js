@@ -20,6 +20,18 @@ app.get("/api/team", (req, res) => {
   request(url).pipe(res);
 });
 
+app.get("/api/manager-chips", (req, res) => {
+  const { userID } = req.query;
+  const url = `${process.env.FPL_API}/entry/${userID}/history/`;
+  request(url).pipe(res);
+});
+
+app.get("/api/transfers", (req, res) => {
+  const { userID } = req.query;
+  const url = `${process.env.FPL_API}/entry/${userID}/transfers/`;
+  request(url).pipe(res);
+});
+
 app.use("/api/players", playerRouter);
 app.use("/api/players-history", playerHistoryRouter);
 
