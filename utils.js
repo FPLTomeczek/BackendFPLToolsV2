@@ -21,9 +21,8 @@ async function getPlayerHistoryCost(id) {
   const values = history.map((gw) => gw.value);
   return values;
 }
-async function getFixtures() {
+async function fetchFixtures() {
   const fixtures = await axios.get(`${process.env.FPL_API}/fixtures`);
-
   return fixtures;
 }
 
@@ -94,5 +93,5 @@ module.exports = {
   updateTeam,
   updateRole,
   getPlayerHistoryCost,
-  getFixtures,
+  fetchFixtures,
 };

@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { postFixtures } = require("../controllers/fixtures");
-const Fixtures = require("../models/Fixtures");
+const {
+  postFixtures,
+  deleteFixtures,
+  getFixtures,
+} = require("../controllers/fixtures");
 
 //post function populating db, not for use from frontend
-router.route("/").post(Fixtures);
+router.route("/").get(getFixtures).post(postFixtures).delete(deleteFixtures);
 // router.route("/addPlayerHistoryCost").get(addPlayerHistoryCost);
 
 module.exports = router;

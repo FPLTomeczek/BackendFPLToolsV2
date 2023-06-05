@@ -6,11 +6,11 @@ const FixtureSchema = new mongoose.Schema({
     required: true,
   },
   team_a: {
-    type: Number,
+    type: String,
     required: true,
   },
   team_h: {
-    type: Number,
+    type: String,
     required: true,
   },
   team_a_difficulty: {

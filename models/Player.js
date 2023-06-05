@@ -33,6 +33,9 @@ const PlayerSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  availability: {
+    type: Number,
+  },
 });
 
 module.exports = mongoose.model("Player", PlayerSchema);
