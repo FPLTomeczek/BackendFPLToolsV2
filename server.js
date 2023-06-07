@@ -3,9 +3,11 @@ const connectDB = require("./db/connect");
 
 require("dotenv").config();
 const request = require("request");
+const cors = require("cors");
 const playerRouter = require("./router/players");
 const playerHistoryRouter = require("./router/playersHistory");
 const fixturesRouter = require("./router/fixtures");
+const { default: axios } = require("axios");
 
 const app = express();
 const port = 3001;
@@ -15,22 +17,28 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/api/team", (req, res) => {
+app.get("/api/team", cors(), async (req, res) => {
   const { userID } = req.query;
-  const url = `${process.env.FPL_API}/entry/${userID}/event/34/picks/`;
-  request(url).pipe(res);
+  const response = await axios.get(
+    `${process.env.FPL_API}/entry/${userID}/event/34/picks/`
+  );
+  res.json(response.data);
 });
 
-app.get("/api/manager-history", (req, res) => {
+app.get("/api/manager-history", cors(), async (req, res) => {
   const { userID } = req.query;
-  const url = `${process.env.FPL_API}/entry/${userID}/history/`;
-  request(url).pipe(res);
+  const response = await axios.get(
+    `${process.env.FPL_API}/entry/${userID}/history/`
+  );
+  res.json(response.data);
 });
 
-app.get("/api/transfers", (req, res) => {
+app.get("/api/transfers", cors(), async (req, res) => {
   const { userID } = req.query;
-  const url = `${process.env.FPL_API}/entry/${userID}/transfers/`;
-  request(url).pipe(res);
+  const response = await axios.get(
+    `${process.env.FPL_API}/entry/${userID}/transfers/`
+  );
+  res.json(response.data);
 });
 
 app.use("/api/players", playerRouter);
