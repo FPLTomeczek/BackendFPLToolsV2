@@ -20,6 +20,7 @@ const addPlayers = (req, res) => {
           element_type,
           total_points,
           now_cost,
+          chance_of_playing_next_round,
         } = elem;
         const updatedTeam = updateTeam(team);
         const updatedRole = updateRole(element_type);
@@ -32,6 +33,7 @@ const addPlayers = (req, res) => {
           element_type: updatedRole,
           total_points,
           now_cost,
+          availability: chance_of_playing_next_round,
         };
       });
       await Player.insertMany(players);

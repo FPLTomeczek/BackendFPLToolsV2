@@ -5,6 +5,7 @@ require("dotenv").config();
 const request = require("request");
 const playerRouter = require("./router/players");
 const playerHistoryRouter = require("./router/playersHistory");
+const fixturesRouter = require("./router/fixtures");
 
 const app = express();
 const port = 3001;
@@ -20,7 +21,7 @@ app.get("/api/team", (req, res) => {
   request(url).pipe(res);
 });
 
-app.get("/api/manager-chips", (req, res) => {
+app.get("/api/manager-history", (req, res) => {
   const { userID } = req.query;
   const url = `${process.env.FPL_API}/entry/${userID}/history/`;
   request(url).pipe(res);
@@ -34,6 +35,7 @@ app.get("/api/transfers", (req, res) => {
 
 app.use("/api/players", playerRouter);
 app.use("/api/players-history", playerHistoryRouter);
+app.use("/api/fixtures", fixturesRouter);
 
 const startServer = async () => {
   try {
