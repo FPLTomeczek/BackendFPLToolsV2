@@ -1,8 +1,6 @@
 const express = require("express");
 const connectDB = require("./db/connect");
-
 require("dotenv").config();
-const request = require("request");
 const cors = require("cors");
 const playerRouter = require("./router/players");
 const playerHistoryRouter = require("./router/playersHistory");
@@ -19,10 +17,14 @@ app.use((req, res, next) => {
 
 app.get("/api/team", cors(), async (req, res) => {
   const { userID } = req.query;
-  const response = await axios.get(
-    `${process.env.FPL_API}/entry/${userID}/event/34/picks/`
-  );
-  res.json(response.data);
+  try {
+    const response = await axios.get(
+      `${process.env.FPL_API}/entry/${userID}/event/34/picks/`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.json({ msg: `User team with id: ${userID} not found` });
+  }
 });
 
 app.get("/api/manager-history", cors(), async (req, res) => {
