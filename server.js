@@ -5,6 +5,7 @@ const cors = require("cors");
 const playerRouter = require("./router/players");
 const playerHistoryRouter = require("./router/playersHistory");
 const fixturesRouter = require("./router/fixtures");
+const teamsRouter = require("./router/teams");
 const { default: axios } = require("axios");
 
 const app = express();
@@ -15,7 +16,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/api/team", cors(), async (req, res) => {
+app.get("/api/picks", cors(), async (req, res) => {
   const { userID } = req.query;
   try {
     const response = await axios.get(
@@ -46,6 +47,7 @@ app.get("/api/transfers", cors(), async (req, res) => {
 app.use("/api/players", playerRouter);
 app.use("/api/players-history", playerHistoryRouter);
 app.use("/api/fixtures", fixturesRouter);
+app.use("/api/teams", teamsRouter);
 
 const startServer = async () => {
   try {

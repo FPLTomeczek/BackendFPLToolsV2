@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   addPlayers,
-  getTeamManagerPlayers,
+  getManagerPicks,
   getPlayers,
   deletePlayers,
 } = require("../controllers/players");
@@ -11,6 +11,6 @@ const {
 router.route("/").post(addPlayers).get(getPlayers).delete(deletePlayers);
 // router.route("/addPlayerHistoryCost").get(addPlayerHistoryCost);
 
-router.route("/getTeamManagerPlayers").get(getTeamManagerPlayers);
+router.route("/manager-picks").get(getManagerPicks);
 
 module.exports = router;

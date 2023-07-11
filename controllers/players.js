@@ -34,6 +34,7 @@ const addPlayers = (req, res) => {
           total_points,
           now_cost,
           availability: chance_of_playing_next_round,
+          scoring_chance: Math.floor(Math.random() * 100),
         };
       });
       await Player.insertMany(players);
@@ -56,7 +57,7 @@ const getPlayers = async (req, res) => {
   res.status(StatusCodes.OK).json({ players });
 };
 
-const getTeamManagerPlayers = async (req, res) => {
+const getManagerPicks = async (req, res) => {
   const { ids } = req.query;
   const parsedIDs = JSON.parse(ids);
   const players = await Player.find({
@@ -72,7 +73,7 @@ const getTeamManagerPlayers = async (req, res) => {
 };
 module.exports = {
   addPlayers,
-  getTeamManagerPlayers,
+  getManagerPicks,
   getPlayers,
   deletePlayers,
 };

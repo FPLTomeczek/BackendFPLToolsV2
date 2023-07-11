@@ -36,6 +36,12 @@ const PlayerSchema = new mongoose.Schema({
   availability: {
     type: Number,
   },
+  scoring_chance: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Player", PlayerSchema);
