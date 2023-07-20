@@ -9,6 +9,10 @@ const TeamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fixtures: {
+    type: [{ opponent: String, difficulty: Number, isHome: Boolean }],
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Team", TeamSchema);

@@ -2,10 +2,13 @@ const express = require("express");
 const connectDB = require("./db/connect");
 require("dotenv").config();
 const cors = require("cors");
-const playerRouter = require("./router/players");
-const playerHistoryRouter = require("./router/playersHistory");
-const fixturesRouter = require("./router/fixtures");
-const teamsRouter = require("./router/teams");
+const {
+  playersRouter,
+  playersHistoryRouter,
+  fixturesRouter,
+  teamsRouter,
+  gameweeksRouter,
+} = require("./router/index");
 const { default: axios } = require("axios");
 
 const app = express();
@@ -44,10 +47,11 @@ app.get("/api/transfers", cors(), async (req, res) => {
   res.json(response.data);
 });
 
-app.use("/api/players", playerRouter);
-app.use("/api/players-history", playerHistoryRouter);
+app.use("/api/players", playersRouter);
+app.use("/api/players-history", playersHistoryRouter);
 app.use("/api/fixtures", fixturesRouter);
 app.use("/api/teams", teamsRouter);
+app.use("/api/gameweeks", gameweeksRouter);
 
 const startServer = async () => {
   try {

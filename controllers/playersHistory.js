@@ -2,6 +2,7 @@ const { getPlayerHistoryCost } = require("../utils");
 const { StatusCodes } = require("http-status-codes");
 const PlayerHistory = require("../models/PlayerHistory");
 const Player = require("../models/Player");
+const { NotFoundError, BadRequestError } = require("../errors");
 
 const addPlayersHistoryCost = async (req, res) => {
   try {
@@ -13,13 +14,17 @@ const addPlayersHistoryCost = async (req, res) => {
     });
     res.status(StatusCodes.CREATED).json({ msg: "Players History Added" });
   } catch (error) {
-    console.log(error);
+    throw new BadRequestError(error);
   }
 };
 
 const getPlayersHistory = async (req, res) => {
-  const players = await PlayerHistory.find({});
-  res.status(StatusCodes.OK).json({ players });
+  try {
+    const players = await PlayerHistory.find({});
+    res.status(StatusCodes.OK).json({ players });
+  } catch (error) {
+    throw new NotFoundError(error);
+  }
 };
 
 module.exports = { addPlayersHistoryCost, getPlayersHistory };

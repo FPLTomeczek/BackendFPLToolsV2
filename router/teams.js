@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getTeams } = require("../controllers/teams");
+const { getTeams, addTeams, deleteTeams } = require("../controllers/teams");
 
-router.route("/").get(getTeams);
+router.route("/").get(getTeams).post(addTeams).delete(deleteTeams);
 
 module.exports = router;

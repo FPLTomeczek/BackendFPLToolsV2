@@ -1,13 +1,12 @@
-const { makePlayersRequest, updateTeam, updateRole } = require("../utils");
+const { makeBootstrapRequest, updateTeam, updateRole } = require("../utils");
 const { StatusCodes } = require("http-status-codes");
-const { NotFoundError } = require("../errors");
+const { NotFoundError, BadRequestError } = require("../errors");
 const Player = require("../models/Player");
 
 //function populating db, not for use from frontend
 const addPlayers = (req, res) => {
-  const url = `${process.env.FPL_API}/bootstrap-static/`;
   let result;
-  makePlayersRequest(url)
+  makeBootstrapRequest()
     .then(async (data) => {
       result = data["elements"];
       const players = result.map((elem) => {
@@ -40,7 +39,9 @@ const addPlayers = (req, res) => {
       await Player.insertMany(players);
       res.status(StatusCodes.CREATED).json({ msg: "Players Added" });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      throw new BadRequestError(error);
+    });
 };
 
 const deletePlayers = async (req, res) => {
@@ -48,13 +49,17 @@ const deletePlayers = async (req, res) => {
     await Player.deleteMany({});
     res.status(StatusCodes.NO_CONTENT).end();
   } catch (error) {
-    console.log(error);
+    throw new BadRequestError(error);
   }
 };
 
 const getPlayers = async (req, res) => {
-  const players = await Player.find({});
-  res.status(StatusCodes.OK).json({ players });
+  try {
+    const players = await Player.find({});
+    res.status(StatusCodes.OK).json({ players });
+  } catch (error) {
+    throw new NotFoundError(error);
+  }
 };
 
 const getManagerPicks = async (req, res) => {

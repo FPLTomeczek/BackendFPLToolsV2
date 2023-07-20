@@ -1,15 +1,18 @@
 const request = require("request");
 const axios = require("axios");
 
-function makePlayersRequest(url) {
+function makeBootstrapRequest() {
   return new Promise(function (resolve, reject) {
-    request({ url, json: true }, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        resolve(body);
-      } else {
-        reject(error);
+    request(
+      { url: `${process.env.FPL_API}/bootstrap-static/`, json: true },
+      function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          resolve(body);
+        } else {
+          reject(error);
+        }
       }
-    });
+    );
   });
 }
 
@@ -89,7 +92,7 @@ function updateRole(role) {
 }
 
 module.exports = {
-  makePlayersRequest,
+  makeBootstrapRequest,
   updateTeam,
   updateRole,
   getPlayerHistoryCost,
