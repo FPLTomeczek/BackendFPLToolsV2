@@ -23,7 +23,7 @@ app.get("/api/picks", cors(), async (req, res) => {
   const { userID } = req.query;
   try {
     const response = await axios.get(
-      `${process.env.FPL_API}/entry/${userID}/event/34/picks/`
+      `${process.env.FPL_API}/entry/${userID}/event/2/picks/`
     );
     res.json(response.data);
   } catch (error) {

@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const FixtureSchema = new mongoose.Schema({
   event: {
     type: Number,
-    required: true,
+    required: false,
+    default: null,
   },
   team_a: {
     type: String,

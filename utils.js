@@ -42,19 +42,19 @@ function updateTeam(team) {
     case 5:
       return "BHA";
     case 6:
-      return "CFC";
+      return "BUR";
     case 7:
-      return "CRY";
+      return "CFC";
     case 8:
-      return "EVE";
+      return "CRY";
     case 9:
-      return "FUL";
+      return "EVE";
     case 10:
-      return "LEI";
+      return "FUL";
     case 11:
-      return "LEE";
-    case 12:
       return "LIV";
+    case 12:
+      return "LUT";
     case 13:
       return "MCI";
     case 14:
@@ -64,7 +64,7 @@ function updateTeam(team) {
     case 16:
       return "NFO";
     case 17:
-      return "SOU";
+      return "SHU";
     case 18:
       return "TOT";
     case 19:
