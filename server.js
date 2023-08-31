@@ -22,12 +22,8 @@ app.use((req, res, next) => {
 app.get("/api/picks", cors(), async (req, res) => {
   const { userID } = req.query;
   try {
-    const gameweeks = await axios.get(
-      "https://fpltools-api.onrender.com/api/gameweeks"
-    );
-    const nextGW = gameweeks.data.find((gw) => gw.finished === false).id;
     const response = await axios.get(
-      `${process.env.FPL_API}/entry/${userID}/event/${nextGW}/picks/`
+      `${process.env.FPL_API}/entry/${userID}/event/3/picks/`
     );
     res.json(response.data);
   } catch (error) {
