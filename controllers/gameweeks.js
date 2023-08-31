@@ -15,10 +15,14 @@ const addGameweeks = async (req, res) => {
   makeBootstrapRequest()
     .then(async (data) => {
       const events = data["events"];
-      const gameweeks = events.map((gw) => {
-        const { id, finished, deadline_time } = gw;
-        return { id, finished, deadline_time };
-      });
+      const gameweeks = events
+        .map((gw) => {
+          const { id, finished, deadline_time } = gw;
+          return { id, finished, deadline_time };
+        })
+        .sort((a, b) => {
+          return a.deadline_time.localeCompare(b.deadline_time);
+        });
       await Gameweek.insertMany(gameweeks);
       res.status(StatusCodes.CREATED).json({ msg: "Gameweeks Added" });
     })

@@ -22,21 +22,17 @@ const addTeams = async (req, res) => {
     );
 
     const teamFixturesMapped = teamFixtures.map((teamFixture) => {
-      const { team_a, team_h, team_h_difficulty, team_a_difficulty } =
+      const { team_a, team_h, team_h_difficulty, team_a_difficulty, event } =
         teamFixture;
-      if (team_a === i) {
-        return {
-          opponent: updateTeam(team_h),
-          difficulty: team_a_difficulty,
-          isHome: false,
-        };
-      }
+
       return {
-        opponent: updateTeam(team_a),
-        difficulty: team_h_difficulty,
-        isHome: true,
+        opponent: team_a === i ? updateTeam(team_h) : updateTeam(team_a),
+        difficulty: team_a === i ? team_a_difficulty : team_h_difficulty,
+        isHome: false,
+        event,
       };
     });
+
     allTeamsFixtures.push({
       id: i,
       name: updateTeam(i),

@@ -10,7 +10,14 @@ const TeamSchema = new mongoose.Schema({
     required: true,
   },
   fixtures: {
-    type: [{ opponent: String, difficulty: Number, isHome: Boolean }],
+    type: [
+      {
+        opponent: String,
+        difficulty: Number,
+        isHome: Boolean,
+        event: { type: Number, default: null },
+      },
+    ],
     required: true,
   },
 });
