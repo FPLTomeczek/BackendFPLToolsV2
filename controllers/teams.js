@@ -1,7 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const Team = require("../models/Team");
 const { fetchFixtures, updateTeam } = require("../utils");
-const { all } = require("axios");
 const { BadRequestError, NotFoundError } = require("../errors");
 
 const getTeams = async (req, res) => {
