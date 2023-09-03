@@ -8,6 +8,7 @@ const {
   fixturesRouter,
   teamsRouter,
   gameweeksRouter,
+  postsRouter,
 } = require("./router/index");
 const { default: axios } = require("axios");
 
@@ -23,7 +24,7 @@ app.get("/api/picks", cors(), async (req, res) => {
   const { userID } = req.query;
   try {
     const response = await axios.get(
-      `${process.env.FPL_API}/entry/${userID}/event/3/picks/`
+      `${process.env.FPL_API}/entry/${userID}/event/4/picks/`
     );
     res.json(response.data);
   } catch (error) {
@@ -52,6 +53,7 @@ app.use("/api/players-history", playersHistoryRouter);
 app.use("/api/fixtures", fixturesRouter);
 app.use("/api/teams", teamsRouter);
 app.use("/api/gameweeks", gameweeksRouter);
+app.use("/api/posts", postsRouter);
 
 const startServer = async () => {
   try {
