@@ -27,7 +27,7 @@ const addTeams = async (req, res) => {
       return {
         opponent: team_a === i ? updateTeam(team_h) : updateTeam(team_a),
         difficulty: team_a === i ? team_a_difficulty : team_h_difficulty,
-        isHome: false,
+        isHome: team_a === i ? false : true,
         event,
       };
     });
