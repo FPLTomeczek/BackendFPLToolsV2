@@ -4,6 +4,7 @@ const playersRouter = require("./players");
 const playersHistoryRouter = require("./playersHistory");
 const teamsRouter = require("./teams");
 const postsRouter = require("./posts");
+const usersRouter = require("./auth/users");
 
 module.exports = {
   fixturesRouter,
@@ -12,4 +13,5 @@ module.exports = {
   playersHistoryRouter,
   teamsRouter,
   postsRouter,
+  usersRouter,
 };
