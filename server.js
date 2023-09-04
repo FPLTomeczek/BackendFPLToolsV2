@@ -9,16 +9,25 @@ const {
   teamsRouter,
   gameweeksRouter,
   postsRouter,
+  usersRouter,
 } = require("./router/index");
 const { default: axios } = require("axios");
+
+//error handling
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 const app = express();
 const port = 3001;
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+app.use(express.json());
 
 app.get("/api/picks", cors(), async (req, res) => {
   const { userID } = req.query;
@@ -54,6 +63,10 @@ app.use("/api/fixtures", fixturesRouter);
 app.use("/api/teams", teamsRouter);
 app.use("/api/gameweeks", gameweeksRouter);
 app.use("/api/posts", postsRouter);
+app.use("/api/users", usersRouter);
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const startServer = async () => {
   try {
