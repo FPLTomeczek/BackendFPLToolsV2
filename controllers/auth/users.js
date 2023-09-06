@@ -4,21 +4,20 @@ const { StatusCodes } = require("http-status-codes");
 
 const register = async (req, res, next) => {
   try {
-    const { login, email } = req.body;
-
-    const existingLogin = await User.findOne({ login });
+    const { username, email } = req.body;
+    const existingUsername = await User.findOne({ username });
     const existingEmail = await User.findOne({ email });
 
     let errorFields = [];
 
-    if (existingLogin) {
-      errorFields.push("login");
+    if (existingUsername) {
+      errorFields.push("username");
     }
     if (existingEmail) {
       errorFields.push("email");
     }
 
-    if (existingLogin || existingEmail) {
+    if (existingUsername || existingEmail) {
       const error = new BadRequestError("Duplicate values.");
       error.fields = errorFields;
       throw error;
@@ -34,12 +33,12 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { login, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!login || !password) {
-      throw new BadRequestError("Please provide login and password");
+    if (!username || !password) {
+      throw new BadRequestError("Please provide username and password");
     }
-    const user = await User.findOne({ login });
+    const user = await User.findOne({ username });
     if (!user) {
       throw new UnauthenticatedError("Invalid Credentials");
     }
