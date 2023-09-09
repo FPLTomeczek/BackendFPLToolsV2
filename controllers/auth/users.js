@@ -1,4 +1,8 @@
-const { BadRequestError, UnauthenticatedError } = require("../../errors");
+const {
+  BadRequestError,
+  UnauthenticatedError,
+  NotFoundError,
+} = require("../../errors");
 const User = require("../../models/auth/User");
 const { StatusCodes } = require("http-status-codes");
 const crypto = require("crypto");
@@ -67,7 +71,7 @@ const login = async (req, res, next) => {
   }
 };
 
-const verifyEmail = async (req, res) => {
+const verifyEmail = async (req, res, next) => {
   const { userID, emailToken } = req.params;
 
   try {
@@ -76,8 +80,13 @@ const verifyEmail = async (req, res) => {
       { verified: true },
       { new: true }
     );
+    if (!user) {
+      throw new NotFoundError("Not valid verification link");
+    }
     const token = user.createJWT();
-    res.status(StatusCodes.OK).json({ user, token });
+    res
+      .status(StatusCodes.OK)
+      .json({ user, token, msg: "Congratulations! Your account is verified." });
   } catch (error) {
     next(error);
   }

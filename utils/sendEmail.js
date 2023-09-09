@@ -1,25 +1,38 @@
 const nodemailer = require("nodemailer");
 
+const devOptions = {
+  host: "smtp.ethereal.email",
+  port: 587,
+  auth: {
+    user: `${process.env.TEST_EMAIL_USER}`,
+    pass: `${process.env.TEST_EMAIL_PASS}`,
+  },
+};
+
+const prodOptions = {
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: `${process.env.EMAIL_USER}`,
+    pass: `${process.env.EMAIL_PASS}`,
+  },
+};
+
 const sendEmail = async (email, subject, link) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      auth: {
-        user: "jovanny.runolfsdottir@ethereal.email",
-        pass: "h3Za78Q4R9cErp9Ywr",
-      },
-    });
+    const options =
+      process.env.NODE_ENV === "development" ? devOptions : prodOptions;
+    const transporter = nodemailer.createTransport(options);
 
     await transporter.sendMail({
-      from: "jovanny.runolfsdottir@ethereal.email",
+      from: `${options.auth.user}`,
       to: email,
       subject: subject,
-      html: `Click following link to activate your account:<br/> <a href="${link}">${link}</a>`,
+      html: `Welcome to the FPLTools! We are happy to have you here, Click <a href="${link}" target="_blank" rel="noopener noreferrer">here</a> to activate your account. `,
     });
-    console.log("email sent sucessfully");
   } catch (error) {
-    console.log("email not sent");
     console.log(error);
   }
 };
