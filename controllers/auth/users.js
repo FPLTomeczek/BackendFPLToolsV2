@@ -1,6 +1,13 @@
-const { BadRequestError, UnauthenticatedError } = require("../../errors");
+const {
+  BadRequestError,
+  UnauthenticatedError,
+  NotFoundError,
+} = require("../../errors");
 const User = require("../../models/auth/User");
 const { StatusCodes } = require("http-status-codes");
+const crypto = require("crypto");
+const sendEmail = require("../../utils/sendEmail");
+const { configURL } = require("../../utils/config");
 
 const register = async (req, res, next) => {
   try {
@@ -23,9 +30,15 @@ const register = async (req, res, next) => {
       throw error;
     }
 
-    const user = await User.create({ ...req.body });
-    const token = user.createJWT();
-    res.status(StatusCodes.CREATED).json({ user, token });
+    const user = await User.create({
+      ...req.body,
+      emailToken: crypto.randomBytes(64).toString("hex"),
+    });
+
+    const verificationLink = `${configURL.frontURL}/verify/${user._id}/${user.emailToken}`;
+    await sendEmail(email, "Verify email", verificationLink);
+
+    res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
     next(error);
   }
@@ -46,6 +59,11 @@ const login = async (req, res, next) => {
     if (!isPasswordCorrect) {
       throw new UnauthenticatedError("Invalid Credentials");
     }
+    if (!user.verified) {
+      throw new UnauthenticatedError(
+        "You have not verified your account, check your email"
+      );
+    }
     const token = user.createJWT();
     res.status(StatusCodes.OK).json({ user, token });
   } catch (err) {
@@ -53,4 +71,25 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login };
+const verifyEmail = async (req, res, next) => {
+  const { userID, emailToken } = req.params;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: userID, emailToken },
+      { verified: true },
+      { new: true }
+    );
+    if (!user) {
+      throw new NotFoundError("Not valid verification link");
+    }
+    const token = user.createJWT();
+    res
+      .status(StatusCodes.OK)
+      .json({ user, token, msg: "Congratulations! Your account is verified." });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { register, login, verifyEmail };
